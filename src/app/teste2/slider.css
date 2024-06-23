@@ -1,0 +1,24 @@
+.custom-slider .slick-dots {
+    position: absolute;
+    bottom: 10px; /* Ajuste a posição conforme necessário */
+    width: 100%;
+    display: flex !important;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .custom-slider .slick-dots li {
+    margin: 0 5px;
+  }
+  
+  .custom-slider .slick-dots li button:before {
+    font-size: 12px;
+    color: white; /* Ajuste a cor conforme necessário */
+  }
+  
+  .custom-slider .slick-dots li.slick-active button:before {
+    color: white; /* Ajuste a cor conforme necessário */
+  }
+  
