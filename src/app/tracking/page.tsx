@@ -1,15 +1,14 @@
 'use client'
 import * as React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 export default function VideoTracking() {
-
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
 
   async function startVideo() {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
