@@ -34,12 +34,13 @@ export default function VideoTracking() {
   useEffect(() => {
     const loadModels = async () => {
       const MODEL_URL = '/models';
-      await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
-      await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
-      await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
-      await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
+      // await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+      // await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+      // await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+      // await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
       // load ssd_mobilenetv1
       await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
+
     };
 
     loadModels();
@@ -59,14 +60,22 @@ export default function VideoTracking() {
 
       setInterval(async () => {
 
-        const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options()).withFaceLandmarks().withFaceExpressions();
+        const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options());
         const resizedDetections = faceapi.resizeResults(detections, displaySize);
         const context = canvas.getContext('2d');
         if (context) {
         context.clearRect(0, 0, canvas.width, canvas.height);
-        faceapi.draw.drawDetections(canvas, resizedDetections);
-        faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-        faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+        // faceapi.draw.drawDetections(canvas, resizedDetections);
+        // colocar o nome da pessoa proximo ao rosto
+        context.fillStyle = 'white';
+        context.font = '24px Arial';
+
+        resizedDetections.forEach(detection => {
+          const { x, y, width, height } = detection.box;
+          //desenhar em cima da cabeça
+          context.fillText('Nome da pessoa', x, y - 30);
+        }
+        );
         }
       }, 100);
       
