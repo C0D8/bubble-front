@@ -1,6 +1,5 @@
 'use client'
 import * as React from 'react';
-import { Button } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,7 +17,7 @@ export default function FloatingActionButtons() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    appendDots: dots => (
+    appendDots: (dots: React.ReactNode) => (
       <div style={{ position: 'absolute', bottom: '10px', width: '100%' }}>
         <ul style={{ margin: '0px' }}>{dots}</ul>
       </div>
@@ -45,7 +44,7 @@ export default function FloatingActionButtons() {
       </div>
 
       {/* Contêiner para a biografia */}
-      <div className="relative z-10 flex flex-col items-start  bg-white bg-opacity-50 rounded-lg shadow-md w-full max-w-xl mx-auto">
+      <div className="relative z-10 flex flex-col items-start space-y-2 p-4 bg-white bg-opacity-50 rounded-lg shadow-md w-full max-w-xl mx-auto">
         <h1 className="text-2xl font-bold text-gray-800">Hello World</h1>
         <p className="text-gray-800">I'm a Software Engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly. Confident communicator, strategic thinker, and innovative creator to develop software that is customized to meet a company’s organizational needs, highlight their core competencies, and further their success.</p>
       </div>
