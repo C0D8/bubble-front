@@ -6,7 +6,7 @@ import * as faceapi from 'face-api.js';
 export default function VideoTracking() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
-  const [names, setNames] = useState<string[]>([]); // Defina um tipo para o estado names
+  const [names, setNames] = useState<string[]>([]);
 
   async function startVideo() {
     try {
@@ -78,7 +78,7 @@ export default function VideoTracking() {
   }, [names]);
 
   useEffect(() => {
-    const sendFrameToServer = async (frame : string) => {
+    const sendFrameToServer = async (frame: string) => {
       const response = await fetch('http://192.168.1.45:5005/face_coords', {
         method: 'POST',
         headers: {
@@ -86,22 +86,12 @@ export default function VideoTracking() {
         },
         body: JSON.stringify({ image_data: frame })
       });
-      // const data = [{name:'c0d8'}]
 
       const data = await response.json();
-      // console.log(data);
-      // console.log(data.map((d) => d.name));
-      
-        setNames(data.map((d) => d.name));
-
-        console.log('data');
-        console.log(data);
-        console.log(names);
-
-  
+      setNames(data.map((d: { name: string }) => d.name));
     };
 
-    const captureFrame = () => {
+    const captureFrame = (): string | null => {
       const video = videoRef.current;
       if (!video) return null;
 
@@ -121,7 +111,7 @@ export default function VideoTracking() {
       }
     }, 2000);
 
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, []);
 
   return (
