@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.dosis {
+  font-family: var(--font-dosis) !important;
+}

@@ -2,8 +2,20 @@
 import * as React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
+import { Button } from '@mui/material';
 import 'slick-carousel/slick/slick-theme.css';
 import './slider.css'; // Import the custom CSS file
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import XIcon from '@mui/icons-material/X';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
+import SearchIcon from '@mui/icons-material/Search';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+//house icon outline 
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+
 
 export default function FloatingActionButtons() {
 
@@ -25,29 +37,90 @@ export default function FloatingActionButtons() {
   };
 
   return (
-    // Imagem de fundo para a tela
-    <div className="bg-gradient-to-b from-gray-600 to-gray-200 h-screen flex flex-col justify-start items-center">
-      
-      {/* Contêiner para o SlideView */}
-      <div className="relative z-10 w-full max-w-xl mx-auto mb-8 h-96"> {/* Ajuste da altura para h-96 */}
-        <Slider {...settings} className="custom-slider">
-          <div>
-            <img src="https://via.placeholder.com/800x400" alt="slide 1" className="w-full h-96 object-cover" />
-          </div>
-          <div>
-            <img src="https://via.placeholder.com/800x300" alt="slide 2" className="w-full h-96 object-cover" />
-          </div>
-          <div>
-            <img src="https://via.placeholder.com/800x400" alt="slide 3" className="w-full h-96 object-cover" />
-          </div>
-        </Slider>
+
+    <div className="h-screen flex flex-col justify-between items-center bg-white ">
+
+      <div>
+
+      <div className="image-gradient flex flex-start justify-center items-center ">
+        <img src="img/cara.png" alt="background" className="w-11/12" />
+        {/* <div className="image-text dosis">MEU NOME</div>
+        <div className="image-text-2 dosis">prof</div> */}
+       
+
       </div>
 
-      {/* Contêiner para a biografia */}
-      <div className="relative z-10 flex flex-col items-start space-y-2 p-4 bg-white bg-opacity-50 rounded-lg shadow-md w-full max-w-xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-800">Hello World</h1>
-        <p className="text-gray-800">I'm a Software Engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly. Confident communicator, strategic thinker, and innovative creator to develop software that is customized to meet a company’s organizational needs, highlight their core competencies, and further their success.</p>
+      <div className="text-container">
+
+      <div className="dosis text-blue-500 text-4xl items-center justify-center flex">MEU NOME</div>
+      <div className="dosis text-black  text-lg font-extrabold items-center justify-center flex">ADM</div>
+      <div className="flex flex-col flex-start text-slate-600 items-center justify-center flex text-center pl-10 pr-10" style={{ wordWrap: 'break-word' }}>
+        Lorem iasdfasdasd  fwfwfewfwfwefwfwfwefwfwf</div>
       </div>
-    </div>
+
+      
+      </div>
+
+      <div className="icons flex justify-center mt-20 ">
+        <InstagramIcon className="icon" sx={{ color: 'black', fontSize:26 }} />
+        <FacebookIcon className="icon" sx={{ color: 'black', fontSize:26 }} />
+        <XIcon className="icon" sx={{ color: 'black',  fontSize:26}} />
+        <XIcon className="icon" sx={{ color: 'black',  fontSize:26}} />
+
+      </div>
+      
+    
+      <div>
+      <AvatarGroup max={4} className="mb-5"  sx={{
+    '& .MuiAvatar-root': { width: 32, height: 32, fontSize: 15, transform: 'translate(0.6rem, 0)',  backgroundColor: '#3b82f6'},
+  }}>
+        <Avatar alt="Remy Sharp"   sx={{ width: 32, height: 32 ,transform: 'translate(0, 0) !important',   backgroundColor: 'grey !important'}}/>
+        
+        <Avatar alt="Travis Howard"  sx={{ width: 32, height: 32 ,transform: 'translate(0, 0) !important', backgroundColor: 'grey !important'}}/>
+        <Avatar alt="Cindy Baker"  sx={{ width: 32, height: 32 ,transform: 'translate(0, 0) !important', backgroundColor: 'grey !important'}}/>
+        <Avatar alt="Agnes Walker"   sx={{ width: 32, height: 32 ,transform: 'translate(0, 0) !important', backgroundColor: 'grey !important'}}/>
+        <Avatar alt="Trevor Henderson"   sx={{ width: 32, height: 32 ,transform: 'translate(0, 0) !important', backgroundColor: 'grey !important'}}/>
+      </AvatarGroup>
+
+      </div>
+
+      <div className= "h-32 w-full bg-slate-200 items-end flex flex-end justify-end flex-col">
+
+     
+
+      <div className= "h-12 w-full bg-slate-200 items-center flex flex-center flex-col">
+
+      <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mb-20 teste w-40">
+        Bubble
+      </Button>
+    
+
+      </div>
+
+      <div className= "h-12 w-full bg-slate-700 items-center flex flex-center flex-row mb-0 pb-0 rounded-t-2xl" style={{justifyContent : 'space-around'}}>
+
+      {/* <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full  w-40">
+        Bubble
+      </Button> */}
+        <TagFacesIcon sx={{ color: 'white' }}/>
+
+        <SearchIcon sx={{ color: 'white' }}/>
+
+      <Button className="hover:bg-slate-200 rounded-full teste2 w-20 h-20  border-slate-200" sx = {{border: '1px !important', backgroundColor: '#e2e8f0'}}>
+      <img src="img/sf.gif" alt="gif" style={{ width: '100%', height: '185%', objectFit: 'cover', borderRadius: '50%', backgroundColor: 'FFFFFF', color: 'FFFFFF'}} />
+
+      </Button>
+
+      <HomeOutlinedIcon sx={{ color: 'white' }}/>
+
+      <PersonOutlineIcon sx={{ color: 'white' }}/>
+
+      </div>
+
+      </div>
+
+</div>
+   
+
   );
 }
