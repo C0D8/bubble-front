@@ -78,18 +78,21 @@ export default function VideoTracking() {
   }, [names]);
 
   useEffect(() => {
-    const sendFrameToServer = async (frame: string) => {
-      const response = await fetch('http://192.168.1.45:5005/face_coords', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ image_data: frame })
-      });
+    // const sendFrameToServer = async (frame: string) => {
+    //   const response = await fetch('http://192.168.1.45:5005/face_coords', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ image_data: frame })
+    //   });
 
-      const data = await response.json();
-      setNames(data.map((d: { name: string }) => d.name));
-    };
+    // //   const data = await response.json();
+    // //   setNames(data.map((d: { name: string }) => d.name));
+    // console.log(names)
+    // };
+    
+    setNames(['c0d8'])
 
     const captureFrame = (): string | null => {
       const video = videoRef.current;
@@ -107,11 +110,11 @@ export default function VideoTracking() {
     const interval = setInterval(() => {
       const frame = captureFrame();
       if (frame) {
-        sendFrameToServer(frame);
+        // sendFrameToServer(frame);
       }
     }, 2000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   return (
