@@ -37,7 +37,7 @@ export default function FloatingActionButtons() {
           onClick={handleImageClick}
         />
         <motion.h1
-          className="text-black text-center z-10 text-4xl"
+          className="text-black text-center z-10 text-5xl"
           animate={{ y: isClicked ? -110 : 0, scale: isClicked ? 0.8 : 1 }}
           transition={{ duration: 0.5 }}
         >
@@ -143,8 +143,9 @@ export default function FloatingActionButtons() {
               variant="contained"
               color="primary"
               className="rounded-full h-12"
-              sx={{ borderRadius: 99999, width: "35vh" }}
+              sx={{ borderRadius: 99999, width: "35vh"}}
               onClick={handleEntrarClick}
+              
             >
               Entrar
             </Button>

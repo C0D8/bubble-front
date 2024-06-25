@@ -1,12 +1,40 @@
 import type { Metadata } from "next";
 import { Dosis, Inter} from "next/font/google";
 import "./globals.css";
+import localfont from "next/font/local";
 
 
 const inter = Inter({ subsets: ["latin"] });
 
 const dosis = Dosis({ subsets: ["latin"], weight: ['400', '700'], variable:'--font-dosis'
 });
+
+const billabong = localfont({
+  src:[
+    {path:'../../public/fonts/Billabong.otf'}
+  ],
+  variable:'--font-billabong'
+
+});
+
+const cathalia = localfont({
+  src:[
+    {path:'../../public/fonts/Cathalia.otf'}
+  ],
+  variable:'--font-cathalia'
+
+});
+
+
+const hello = localfont({
+  src:[
+    {path:'../../public/fonts/Hello.otf'}
+  ],
+  variable:'--font-hello'
+
+});
+
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={dosis.className}>{children}</body>
+      <body className={`${dosis.className} ${billabong.className}`}  >{children}</body>
     </html>
   );
 }

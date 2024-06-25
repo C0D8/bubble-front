@@ -13,7 +13,6 @@ interface FaceData {
   confidence: number;
 }
 
-
 export default function VideoTracking() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
@@ -87,16 +86,22 @@ export default function VideoTracking() {
     if (videoRef.current) {
       videoRef.current.addEventListener('play', handleVideoPlay);
     }
+
+    // Adjust canvas size when video is loaded or resized
+    if (videoRef.current) {
+      videoRef.current.addEventListener('loadedmetadata', () => {
+        if (overlayRef.current && videoRef.current) {
+          overlayRef.current.width = videoRef.current.videoWidth;
+          overlayRef.current.height = videoRef.current.videoHeight;
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
     const sendFrameToServer = async (frame: string) => {
       try {
-        // Simulando resposta do servidor com um nome
-        // Normalmente você usaria axios.post para enviar o frame e receber a resposta
         const response = await axios.post('http://localhost:5005/face_coords', { 'image_data' :  frame });
-        // exemplo de resultado [{'x': 199, 'y': 177, 'w': 203, 'h': 203, 'name': 'c0d8', 'confidence': 84}]
-        // ordenar por x e y
         response.data.sort((a: any, b: any) => {
           if (a.x === b.x) {
             return a.y - b.y;
@@ -104,12 +109,8 @@ export default function VideoTracking() {
           return a.x - b.x;
         });
 
-        // fazer um map para pegar os nomes
         const extractedNames = response.data.map((item: FaceData)  => item.name);
         setNames(extractedNames);
-
-        // Simulação: definindo manualmente o nome 'c0d8'
-        // setNames(['c0d8']);
       } catch (error) {
         console.error('Error sending frame to server:', error);
       }
@@ -117,10 +118,10 @@ export default function VideoTracking() {
 
     const captureFrame = (): string | null => {
       const video = videoRef.current;
-      if (!video){
+      if (!video) {
         console.log('Video not found');
         return null;
-      };
+      }
 
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
