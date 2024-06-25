@@ -92,6 +92,9 @@ export default function FloatingActionButtons() {
     window.location.href = 'https://www.instagram.com/c0d8.zip';
   };
 
+  const handleTrackClick = () => {
+    window.location.href = '/tracking';
+  }
 
 
   return (
@@ -432,7 +435,7 @@ export default function FloatingActionButtons() {
         <TagFacesIcon sx={{ color: '#F8F9FD' }}/>
         <SearchIcon sx={{ color: '#F8F9FD' }}/>
 
-        <Button className="hover:bg-slate-200 rounded-full teste2 w-20 h-20" sx={{border: '1px !important', backgroundColor: '#F8F9FD', borderColor: '#F8F9FD'}}>
+        <Button className="hover:bg-slate-200 rounded-full teste2 w-20 h-20" sx={{border: '1px !important', backgroundColor: '#F8F9FD', borderColor: '#F8F9FD'}} onClick={handleTrackClick}>
           <img src="img/sf.gif" alt="gif" style={{ width: '100%', height: '185%', objectFit: 'cover', borderRadius: '50%', backgroundColor: 'FFFFFF', color: 'FFFFFF'}} />
         </Button>
 
