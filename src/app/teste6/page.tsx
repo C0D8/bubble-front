@@ -18,6 +18,12 @@ export default function FloatingActionButtons() {
     setIsClicked(!isClicked);
   };
 
+
+  // handleclick no botão de entrar para ir pro feed 
+  const handleEntrarClick = () => {
+    window.location.href = "/teste5";
+  }
+
   return (
     <div className="h-screen flex flex-col justify-center items-center" style={{ backgroundColor: '#F8F9FD' }}>
       <div className="relative w-screen h-screen flex flex-col justify-center items-center" style={{ backgroundColor: '#F8F9FD' }}>
@@ -138,6 +144,7 @@ export default function FloatingActionButtons() {
               color="primary"
               className="rounded-full h-12"
               sx={{ borderRadius: 99999, width: "35vh" }}
+              onClick={handleEntrarClick}
             >
               Entrar
             </Button>
