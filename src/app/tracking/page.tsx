@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
+import axios from 'axios';
 
 export default function VideoTracking() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -64,12 +65,16 @@ export default function VideoTracking() {
           context.fillStyle = 'white';
           context.font = '24px Arial';
 
-          resizedDetections.forEach((detection, index) => {
-            const { x, y, width, height } = detection.box;
-            context.fillText(names[index] || 'Nome da pessoa', x, y - 30);
-          });
+        
+            resizedDetections.forEach((detection, index) => {
+              const { x, y, width, height } = detection.box;
+              context.fillText('Nome da pessoa', x, y);
+            });
+           
+
+          
         }
-      }, 300);
+      }, 1000);
     };
 
     if (videoRef.current) {
@@ -78,22 +83,21 @@ export default function VideoTracking() {
   }, [names]);
 
   useEffect(() => {
-    // const sendFrameToServer = async (frame: string) => {
-    //   const response = await fetch('http://192.168.1.45:5005/face_coords', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ image_data: frame })
-    //   });
-
-    // //   const data = await response.json();
-    // //   setNames(data.map((d: { name: string }) => d.name));
-    // console.log(names)
-    // };
+    const sendFrameToServer = async (frame: string) => {
+      try {
+        // Simulando resposta do servidor com um nome
+        // Normalmente você usaria axios.post para enviar o frame e receber a resposta
+        // const response = await axios.post('http://localhost:5005/face_coords', { frame });
+        // setNames(response.data.names || []);
+        
+        // Simulação: definindo manualmente o nome 'c0d8'
+        console.log('Sending frame to server:', frame);
+        setNames(['c0d8']);
+      } catch (error) {
+        console.error('Error sending frame to server:', error);
+      }
+    };
     
-    setNames(['c0d8'])
-
     const captureFrame = (): string | null => {
       const video = videoRef.current;
       if (!video) return null;
@@ -110,16 +114,15 @@ export default function VideoTracking() {
     const interval = setInterval(() => {
       const frame = captureFrame();
       if (frame) {
-        // sendFrameToServer(frame);
+        sendFrameToServer(frame);
       }
-    }, 2000);
+    }, 3000);
 
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-      <h1 style={{ position: 'absolute', top: 0, left: 0, zIndex: 10, color: 'white', padding: '10px' }}>Teste</h1>
       <video ref={videoRef} autoPlay muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       <canvas ref={overlayRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
     </div>
