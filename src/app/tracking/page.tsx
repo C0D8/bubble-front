@@ -69,6 +69,10 @@ export default function VideoTracking() {
             resizedDetections.forEach((detection, index) => {
               const { x, y, width, height } = detection.box;
               context.fillText('Nome da pessoa', x, y);
+              context.fillText(names[index], x, y - 10);
+              console.log(names);
+              console.log('INDEX:',index);
+              console.log(names);
             });
            
 
@@ -80,7 +84,7 @@ export default function VideoTracking() {
     if (videoRef.current) {
       videoRef.current.addEventListener('play', handleVideoPlay);
     }
-  }, [names]);
+  }, []);
 
   useEffect(() => {
     const sendFrameToServer = async (frame: string) => {
@@ -89,9 +93,8 @@ export default function VideoTracking() {
         // Normalmente você usaria axios.post para enviar o frame e receber a resposta
         // const response = await axios.post('http://localhost:5005/face_coords', { frame });
         // setNames(response.data.names || []);
-        
         // Simulação: definindo manualmente o nome 'c0d8'
-        console.log('Sending frame to server:', frame);
+        console.log('Sending frame to server:');
         setNames(['c0d8']);
       } catch (error) {
         console.error('Error sending frame to server:', error);

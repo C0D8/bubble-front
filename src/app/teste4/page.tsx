@@ -31,10 +31,10 @@ export default function FloatingActionButtons() {
 
       <div className="relative">
         <div className="bg-white flex flex-center justify-center items-center mt-80 w-screen" style={{ backgroundColor:'#F8F9FD'}}>
-          <img src="img/bb.gif" alt="background" className="w-max" />
+          <img src="img/51-unscreen.gif" alt="background" className="w-max" />
           <FileUploadOutlinedIcon 
     sx={{ 
-      color: '#475569', 
+      color: '#fffff', 
       fontSize: 50, 
       position: 'absolute', 
       top: '70%', 
