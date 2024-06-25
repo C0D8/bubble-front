@@ -90,7 +90,7 @@ export default function VideoTracking() {
     // Adjust canvas size when video is loaded or resized
     if (videoRef.current) {
       videoRef.current.addEventListener('loadedmetadata', () => {
-        if (overlayRef.current && videoRef.current) {
+        if (overlayRef.current  != null && videoRef.current != null) {
           overlayRef.current.width = videoRef.current.videoWidth;
           overlayRef.current.height = videoRef.current.videoHeight;
         }
@@ -101,7 +101,7 @@ export default function VideoTracking() {
   useEffect(() => {
     const sendFrameToServer = async (frame: string) => {
       try {
-        const response = await axios.post('http://localhost:5005/face_coords', { 'image_data' :  frame });
+        const response = await axios.post('http://localhost:5005/face_coords', { 'image_data': frame });
         response.data.sort((a: any, b: any) => {
           if (a.x === b.x) {
             return a.y - b.y;
@@ -109,7 +109,7 @@ export default function VideoTracking() {
           return a.x - b.x;
         });
 
-        const extractedNames = response.data.map((item: FaceData)  => item.name);
+        const extractedNames = response.data.map((item: FaceData) => item.name);
         setNames(extractedNames);
       } catch (error) {
         console.error('Error sending frame to server:', error);
