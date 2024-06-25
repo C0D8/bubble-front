@@ -4,10 +4,21 @@ import { useEffect, useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
 import axios from 'axios';
 
+interface FaceData {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  name: string;
+  confidence: number;
+}
+
+
 export default function VideoTracking() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const [names, setNames] = useState<string[]>([]);
+  const namesRef = useRef<string[]>([]);
 
   async function startVideo() {
     try {
@@ -65,20 +76,12 @@ export default function VideoTracking() {
           context.fillStyle = 'white';
           context.font = '24px Arial';
 
-        
-            resizedDetections.forEach((detection, index) => {
-              const { x, y, width, height } = detection.box;
-              context.fillText('Nome da pessoa', x, y);
-              context.fillText(names[index], x, y - 10);
-              console.log(names);
-              console.log('INDEX:',index);
-              console.log(names);
-            });
-           
-
-          
+          resizedDetections.forEach((detection, index) => {
+            const { x, y } = detection.box;
+            context.fillText(namesRef.current[index] || '', x, y - 10);
+          });
         }
-      }, 1000);
+      }, 300);
     };
 
     if (videoRef.current) {
@@ -91,19 +94,33 @@ export default function VideoTracking() {
       try {
         // Simulando resposta do servidor com um nome
         // Normalmente você usaria axios.post para enviar o frame e receber a resposta
-        // const response = await axios.post('http://localhost:5005/face_coords', { frame });
-        // setNames(response.data.names || []);
+        const response = await axios.post('http://localhost:5005/face_coords', { 'image_data' :  frame });
+        // exemplo de resultado [{'x': 199, 'y': 177, 'w': 203, 'h': 203, 'name': 'c0d8', 'confidence': 84}]
+        // ordenar por x e y
+        response.data.sort((a: any, b: any) => {
+          if (a.x === b.x) {
+            return a.y - b.y;
+          }
+          return a.x - b.x;
+        });
+
+        // fazer um map para pegar os nomes
+        const extractedNames = response.data.map((item: FaceData)  => item.name);
+        setNames(extractedNames);
+
         // Simulação: definindo manualmente o nome 'c0d8'
-        console.log('Sending frame to server:');
-        setNames(['c0d8']);
+        // setNames(['c0d8']);
       } catch (error) {
         console.error('Error sending frame to server:', error);
       }
     };
-    
+
     const captureFrame = (): string | null => {
       const video = videoRef.current;
-      if (!video) return null;
+      if (!video){
+        console.log('Video not found');
+        return null;
+      };
 
       const canvas = document.createElement('canvas');
       canvas.width = video.videoWidth;
@@ -123,6 +140,10 @@ export default function VideoTracking() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    namesRef.current = names;
+  }, [names]);
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>

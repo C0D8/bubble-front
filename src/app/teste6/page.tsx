@@ -6,22 +6,16 @@ import 'slick-carousel/slick/slick-theme.css';
 import InputAdornment from '@mui/material/InputAdornment';
 import { TextField, Button } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-// icone de cadeado 
-import LockIcon from '@mui/icons-material/Lock';
-//icone de cadeado outiline
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-//icone de chave 
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-
 import { motion } from 'framer-motion';
 
 export default function FloatingActionButtons() {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleImageClick = () => {
-    setIsClicked(true);
+    setIsClicked(!isClicked);
   };
 
   return (
@@ -32,13 +26,13 @@ export default function FloatingActionButtons() {
           alt="background"
           className="absolute w-8/12 object-cover"
           style={{ cursor: 'pointer' }}
-          animate={{ y: isClicked ? -110 : 0 }}
+          animate={{ y: isClicked ? -110 : 0, scale: isClicked ? 0.8 : 1 }}
           transition={{ duration: 0.5 }}
           onClick={handleImageClick}
         />
         <motion.h1
           className="text-black text-center z-10 text-4xl"
-          animate={{ y: isClicked ? -110 : 0 }}
+          animate={{ y: isClicked ? -110 : 0, scale: isClicked ? 0.8 : 1 }}
           transition={{ duration: 0.5 }}
         >
           Bubble
@@ -50,123 +44,117 @@ export default function FloatingActionButtons() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            style={{ width: '100%', display: 'flex', justifyContent: 'center'}}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
           >
-            <TextField label="Login" variant="outlined" InputProps={{
-                                                      style: {
-                                                        borderRadius: "9999px",
-                                                        width: "35vh",
-                                                        justifyContent: "center",
-                                                        alignItems: "center",
-                                                        display: "flex",
-                                                        //add backgotund degrade 
-                                                       background: 'linear-gradient(90deg, rgba(2,0,36,0.08) 0%, rgba(184,184,184,0.08) 100%)',
-                                                        
-                                            
-
-                                                      },
-                                                        startAdornment: (
-                                                          <InputAdornment position="start" sx={{paddingLeft: 0, marginLeft: 0}}>
-                                                           <div style={{
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            alignItems: 'center',
-                                                            width: '4vh',
-                                                            height: '4vh',
-                                                            borderRadius: '50%',
-                                                            backgroundColor: '#f0f0f0',
-                                                            alignContent: 'start',
-                                                            paddingLeft: 0,
-                                                            marginLeft: 0,
-                                                            transform: 'translate( -20%, 0)'
-                                                          }}>
-                                                            <PersonOutlineIcon />
-                                                          </div>
-                                                          </InputAdornment>
-                                                        )
-
-
-                                                      }}
-                                                        
-
-  
-  />
+            <TextField
+              label="Login"
+              variant="outlined"
+              InputProps={{
+                style: {
+                  borderRadius: "9999px",
+                  width: "35vh",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                  background: 'linear-gradient(90deg, rgba(2,0,36,0.08) 0%, rgba(184,184,184,0.08) 100%)',
+                },
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ paddingLeft: 0, marginLeft: 0 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '4vh',
+                        height: '4vh',
+                        borderRadius: '50%',
+                        backgroundColor: '#f0f0f0',
+                        alignContent: 'start',
+                        paddingLeft: 0,
+                        marginLeft: 0,
+                        transform: 'translate(-20%, 0)'
+                      }}
+                    >
+                      <PersonOutlineIcon />
+                    </div>
+                  </InputAdornment>
+                )
+              }}
+            />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.5 }}
-            style={{ width: '100%', display: 'flex', justifyContent: 'center'}}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
           >
-            <TextField label="Login" variant="outlined" type='password' InputProps={{
-                                                      style: {
-                                                        borderRadius: "9999px",
-                                                        width: "35vh",
-                                                        justifyContent: "center",
-                                                        alignItems: "center",
-                                                        display: "flex",
-                                                        //add backgotund degrade 
-                                                       background: 'linear-gradient(90deg, rgba(2,0,36,0.08) 0%, rgba(184,184,184,0.08) 100%)',
-                                                        
-                                            
-
-                                                      },
-                                                        startAdornment: (
-                                                          <InputAdornment position="start" sx={{paddingLeft: 0, marginLeft: 0}}>
-                                                           <div style={{
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            alignItems: 'center',
-                                                            width: '4vh',
-                                                            height: '4vh',
-                                                            borderRadius: '50%',
-                                                            backgroundColor: '#f0f0f0',
-                                                            alignContent: 'start',
-                                                            paddingLeft: 0,
-                                                            marginLeft: 0,
-                                                            transform: 'translate( -20%, 0)'
-                                                          }}>
-                                                            <LockOutlinedIcon />
-                                                          </div>
-                                                          </InputAdornment>
-                                                        )
-
-
-                                                      }}
-                                                        
-
-  
-  />
+            <TextField
+              label="Senha"
+              variant="outlined"
+              type='password'
+              InputProps={{
+                style: {
+                  borderRadius: "9999px",
+                  width: "35vh",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                  background: 'linear-gradient(90deg, rgba(2,0,36,0.08) 0%, rgba(184,184,184,0.08) 100%)',
+                },
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ paddingLeft: 0, marginLeft: 0 }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '4vh',
+                        height: '4vh',
+                        borderRadius: '50%',
+                        backgroundColor: '#f0f0f0',
+                        alignContent: 'start',
+                        paddingLeft: 0,
+                        marginLeft: 0,
+                        transform: 'translate(-20%, 0)'
+                      }}
+                    >
+                      <LockOutlinedIcon />
+                    </div>
+                  </InputAdornment>
+                )
+              }}
+            />
           </motion.div>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5, duration: 0.5 }}
-
-            style={{ width: '100%', display: 'flex', justifyContent: 'center'}}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
           >
-            <Button variant="contained" color="primary"  className="rounded-full h-12" sx={{ borderRadius: 99999,  width: "35vh",}} >Entrar</Button>
-            {/* link para levar ao cadastro */}
-    
-
+            <Button
+              variant="contained"
+              color="primary"
+              className="rounded-full h-12"
+              sx={{ borderRadius: 99999, width: "35vh" }}
+            >
+              Entrar
+            </Button>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2, duration: 0.5 }}
-            style={{ width: '100%', display: 'flex', justifyContent: 'center'}}
+            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
           >
             <Typography variant="body2" color="textSecondary">
               Ainda não tem uma conta? <Link href="/cadastro">Cadastre-se aqui</Link>.
             </Typography>
           </motion.div>
-
         </div>
       )}
-
-      
     </div>
   );
 }
