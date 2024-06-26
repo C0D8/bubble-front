@@ -147,7 +147,7 @@ export default function VideoTracking() {
   }, [names]);
 
   return (
-    <div style={{ position: 'relative', width: '100vh', height: '100vh', overflow: 'hidden' }}>
+    <div style={{ position: 'relative',overflow: 'hidden' }} className=" h-screen w-screen">
       <video ref={videoRef} autoPlay muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       <canvas
   ref={overlayRef}
