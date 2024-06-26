@@ -19,8 +19,8 @@ export default function VideoTracking() {
   const [names, setNames] = useState<string[]>([]);
   const namesRef = useRef<string[]>([]);
   const [detections, setDetections] = useState<faceapi.FaceDetection[]>([]);
-  const imageRef = useRef<HTMLImageElement>(new Image());
-  // const imageRef = useRef<HTMLImageElement | null>(null);
+  // const imageRef = useRef<HTMLImageElement>(new Image());
+  const imageRef = useRef<HTMLImageElement | null>(null);
 
   const startVideo = async () => {
     try {
@@ -53,6 +53,7 @@ export default function VideoTracking() {
     };
     loadModels();
 
+    imageRef.current = new Image();
     imageRef.current.src = './img/insta.png';
   }, []);
 
