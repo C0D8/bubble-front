@@ -18,6 +18,7 @@ export default function VideoTracking() {
   const overlayRef = useRef<HTMLCanvasElement>(null);
   const [names, setNames] = useState<string[]>([]);
   const namesRef = useRef<string[]>([]);
+  const [detections, setDetections] = useState<faceapi.FaceDetection[]>([]);
 
   async function startVideo() {
     try {
@@ -67,6 +68,7 @@ export default function VideoTracking() {
       setInterval(async () => {
         const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options());
         const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        setDetections(detections);
         const context = canvas.getContext('2d');
         if (context) {
           context.clearRect(0, 0, canvas.width, canvas.height);
@@ -87,15 +89,6 @@ export default function VideoTracking() {
       videoRef.current.addEventListener('play', handleVideoPlay);
     }
 
-    // Adjust canvas size when video is loaded or resized
-    // if (videoRef.current) {
-    //   videoRef.current.addEventListener('loadedmetadata', () => {
-    //     if (overlayRef.current && videoRef.current) {
-    //       overlayRef.current.width = videoRef.current.videoWidth;
-    //       overlayRef.current.height = videoRef.current.videoHeight;
-    //     }
-    //   });
-    // }
   }, []);
 
   useEffect(() => {
@@ -146,20 +139,60 @@ export default function VideoTracking() {
     namesRef.current = names;
   }, [names]);
 
+  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = overlayRef.current;
+    const video = videoRef.current;
+    if (!canvas || !video) return;
+  
+    const rect = canvas.getBoundingClientRect();
+  
+    // Obter as coordenadas do clique relativas ao canvas
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clickX = (event.clientX - rect.left) * scaleX;
+    const clickY = (event.clientY - rect.top) * scaleY;
+  
+    const dims = faceapi.matchDimensions(canvas, video, true);
+    const resizedResults = faceapi.resizeResults(detections, dims);
+  
+    resizedResults.sort((a, b) => {
+      if (a.box.x === b.box.x) {
+        return a.box.y - b.box.y;
+      }
+      return a.box.x - b.box.x;
+    });
+
+
+    
+
+    resizedResults.forEach(detection => {
+      const { x, y, width, height } = detection.box;
+      if (clickX > x && clickX < x + width && clickY > y && clickY < y + height) {
+        console.log(`Clicked on face: ${namesRef.current[resizedResults.indexOf(detection)] || 'Unknown'}`);
+      }
+
+       
+
+    });
+  };
+  
+  
+
   return (
-    <div style={{ position: 'relative',overflow: 'hidden' }} className=" h-screen w-screen">
+    <div style={{ position: 'relative', overflow: 'hidden' }} className="h-screen w-screen">
       <video ref={videoRef} autoPlay muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       <canvas
-  ref={overlayRef}
-  style={{
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width:'100%',
-    height:'100%',
-    objectFit: 'cover'
-  }}
-/>
+        ref={overlayRef}
+        onClick={handleCanvasClick}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover'
+        }}
+      />
     </div>
   );
 }
