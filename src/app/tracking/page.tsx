@@ -72,16 +72,37 @@ export default function VideoTracking() {
       await font.load();
       document.fonts.add(font);
   
-      // Carregar a imagem de perfil fora do loop de animação
-      const imga_perfil = new Image();
-      imga_perfil.src = 'https://randomuser.me/api/portraits/men/2.jpg';
+      // Carregar imagens de perfil fora do loop de animação
+      const imageUrls = [
+        'https://randomuser.me/api/portraits/men/1.jpg',
+        'https://randomuser.me/api/portraits/men/2.jpg',
+        'https://randomuser.me/api/portraits/men/3.jpg',
+        // adicione URLs de outras imagens conforme necessário
+      ];
+  
+      const images: HTMLImageElement[] = await Promise.all(imageUrls.map((url) => {
+        return new Promise<HTMLImageElement>((resolve) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = () => resolve(img);
+        });
+      }));
+  
+      const defaultImg = new Image();
+      defaultImg.src = 'https://randomuser.me/api/portraits/men/3.jpg';
       await new Promise((resolve) => {
-        imga_perfil.onload = resolve;
+        defaultImg.onload = resolve;
       });
   
       const drawDetections = async () => {
         const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options());
         const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        
+        // Ordenar detecções com base na posição x e y
+        resizedDetections.sort((a, b) => {
+          return (a.box.x + a.box.y) - (b.box.x + b.box.y);
+        });
+  
         setDetections(resizedDetections);
   
         const context = canvas.getContext('2d');
@@ -107,7 +128,9 @@ export default function VideoTracking() {
             context.arc(imageX + imageSize / 2, imageY + imageSize / 2, imageSize / 2, 0, Math.PI * 2, true);
             context.closePath();
             context.clip();
-            context.drawImage(imga_perfil, imageX, imageY, imageSize, imageSize);
+  
+            const imgToDraw = images[index] || defaultImg;
+            context.drawImage(imgToDraw, imageX, imageY, imageSize, imageSize); // Use a imagem correspondente ao usuário
             context.restore();
   
             // Configurar a posição do texto ao lado da imagem
@@ -129,7 +152,6 @@ export default function VideoTracking() {
     }
   }, [detections]);
   
-
   useEffect(() => {
     const sendFrameToServer = async (frame: string) => {
       try {
