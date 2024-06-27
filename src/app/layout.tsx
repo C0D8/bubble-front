@@ -11,28 +11,12 @@ const dosis = Dosis({ subsets: ["latin"], weight: ['400', '700'], variable:'--fo
 
 const billabong = localfont({
   src:[
-    {path:'../../public/fonts/Billabong.otf'}
+    {path:'../../public/fonts/abeatbyKaiRegular.otf'}
   ],
   variable:'--font-billabong'
 
 });
 
-const cathalia = localfont({
-  src:[
-    {path:'../../public/fonts/Cathalia.otf'}
-  ],
-  variable:'--font-cathalia'
-
-});
-
-
-const hello = localfont({
-  src:[
-    {path:'../../public/fonts/Hello.otf'}
-  ],
-  variable:'--font-hello'
-
-});
 
 
 

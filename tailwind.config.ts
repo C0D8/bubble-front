@@ -20,6 +20,14 @@ const config: Config = {
         hello: ["var(--font-hello)"],
     },
 
+    dropShadow: {
+      '3xl': '0 35px 35px rgba(0, 0, 0, 0.25)',
+      '4xl': [
+          '0 35px 35px rgba(0, 0, 0, 0.8)',
+          '0 45px 65px rgba(0, 0, 0, 0.45)'
+      ],
+     'lg': '0 10px 10px rgba(0, 0, 0, 0.4)',
+    }
     
 
     },

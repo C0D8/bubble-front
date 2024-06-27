@@ -113,7 +113,7 @@
 
 .teste2 {
   /* mover o botão metade da sua altura para cima */
-  transform: translateY(-40%);
+  transform: translateY(-10%);
 }
 
 .teste {

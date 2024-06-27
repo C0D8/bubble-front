@@ -41,7 +41,7 @@ export default function FloatingActionButtons() {
           animate={{ y: isClicked ? -110 : 0, scale: isClicked ? 0.8 : 1 }}
           transition={{ duration: 0.5 }}
         >
-          Bubble
+          bubble
         </motion.h1>
       </div>
       {isClicked && (
