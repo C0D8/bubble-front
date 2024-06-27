@@ -152,15 +152,20 @@ export default function FloatingActionButtons() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2, duration: 0.5 }}
-            style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
-          >
-            <Typography variant="body2" color="textSecondary">
-              Ainda não tem uma conta? <Link href="/cadastro">Cadastre-se aqui</Link>.
-            </Typography>
-          </motion.div>
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 2, duration: 0.5 }}
+  style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+>
+  {/* check box de remember me */}
+  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '20px' }}>
+    <input type="checkbox" id="remember-me" name="remember-me"  className='h-3 w-3' style={{ marginRight: '10px'}}  />
+    <label htmlFor="remember-me"  className='text-slate-500  text-xs' >Remember me</label>
+  </div>
+  <Typography variant="body2" color="textSecondary">
+    <Link href="/cadastro"  className='text-sm'>Forgot password?</Link>
+  </Typography>
+</motion.div>
         </div>
       )}
     </div>

@@ -78,12 +78,12 @@ export default function VideoTracking() {
           faceapi.draw.drawDetections(canvas, resizedDetections);
     
           // Carregar a fonte personalizada 'Inter'
-          const font = new FontFace('Inter', 'url(./fonts/Poppins-ThinItalic.ttf)');
+          const font = new FontFace('Inter', 'url(./fonts/Poppins-LightItalic.ttf)');
           font.load().then(loadedFont => {
             document.fonts.add(loadedFont);
     
             // Após a fonte ser carregada, configurar o contexto do canvas
-            context.font = 'italic lighter 30px Inter';
+            context.font = 'italic 30px Inter';
             context.fillStyle = 'white';
     
             resizedDetections.forEach((detection, index) => {
