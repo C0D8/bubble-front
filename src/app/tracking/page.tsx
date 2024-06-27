@@ -124,7 +124,7 @@ export default function VideoTracking() {
   useEffect(() => {
     const sendFrameToServer = async (frame: string) => {
       try {
-        const response = await axios.post('http://localhost:5005/face_coords', { image_data: frame });
+        const response = await axios.post('http://192.168.1.45:5005/face_coords', { image_data: frame });
         response.data.sort((a: FaceData, b: FaceData) => (a.x === b.x ? a.y - b.y : a.x - b.x));
         const extractedNames = response.data.map((item: FaceData) => item.name);
         setNames(extractedNames);
