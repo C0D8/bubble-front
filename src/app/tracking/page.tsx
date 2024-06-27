@@ -79,6 +79,13 @@ export default function VideoTracking() {
         'https://randomuser.me/api/portraits/men/3.jpg',
         // adicione URLs de outras imagens conforme necessário
       ];
+
+      const happnessScore = [
+        './img/image.png',
+        './img/image.png',
+        './img/image.png',
+      ];
+
   
       const images: HTMLImageElement[] = await Promise.all(imageUrls.map((url) => {
         return new Promise<HTMLImageElement>((resolve) => {
@@ -87,6 +94,15 @@ export default function VideoTracking() {
           img.onload = () => resolve(img);
         });
       }));
+
+      const happnessImages: HTMLImageElement[] = await Promise.all(happnessScore.map((url) => {
+        return new Promise<HTMLImageElement>((resolve) => {
+          const img = new Image();
+          img.src = url;
+          img.onload = () => resolve(img);
+        });
+      }
+      ));
   
       const defaultImg = new Image();
       defaultImg.src = 'https://randomuser.me/api/portraits/men/3.jpg';
@@ -131,13 +147,23 @@ export default function VideoTracking() {
   
             const imgToDraw = images[index] || defaultImg;
             context.drawImage(imgToDraw, imageX, imageY, imageSize, imageSize); // Use a imagem correspondente ao usuário
+
             context.restore();
   
             // Configurar a posição do texto ao lado da imagem
             const textX = imageX + imageSize + 10; // Posição X do texto (ajustar margem conforme necessário)
-            const textY = imageY + fontSize; // Posição Y do texto
+            const textY = imageY + fontSize * 1.5; // Posição Y do texto
             context.fillText(namesRef.current[index] || 'unknown', textX, textY);
-            context.fillText('3.7', textX, textY + fontSize * 1.5);
+            context.fillText('3.7', textX, textY + fontSize);
+            // Desenhar a imagem de status de felicidade ao lado do texto '3.7'
+            const statusImageSize = fontSize; // ajuste o tamanho conforme necessário
+            const statusImageX = textX + context.measureText('3.7').width + 10; // ajustar margem conforme necessário
+            const statusImageY = textY + fontSize * 1.2 - statusImageSize;
+            const statusImage = happnessImages[index] || defaultImg;
+            context.drawImage(statusImage, statusImageX, statusImageY, statusImageSize, statusImageSize);
+
+
+
           });
   
           requestAnimationFrame(drawDetections); // Chama recursivamente para o próximo quadro
