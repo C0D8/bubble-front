@@ -61,75 +61,74 @@ export default function VideoTracking() {
     const handleVideoPlay = async () => {
       const canvas = overlayRef.current;
       const video = videoRef.current;
-    
+  
       if (!canvas || !video) return;
-    
+  
       const displaySize = { width: video.videoWidth, height: video.videoHeight };
       faceapi.matchDimensions(canvas, displaySize);
-    
+  
+      // Carregar a fonte personalizada 'Inter' fora do loop de animação
+      const font = new FontFace('Inter', 'url(./fonts/Poppins-LightItalic.ttf)');
+      await font.load();
+      document.fonts.add(font);
+  
+      // Carregar a imagem de perfil fora do loop de animação
+      const imga_perfil = new Image();
+      imga_perfil.src = 'https://randomuser.me/api/portraits/men/2.jpg';
+      await new Promise((resolve) => {
+        imga_perfil.onload = resolve;
+      });
+  
       const drawDetections = async () => {
         const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options());
         const resizedDetections = faceapi.resizeResults(detections, displaySize);
         setDetections(resizedDetections);
-    
+  
         const context = canvas.getContext('2d');
         if (context) {
           context.clearRect(0, 0, canvas.width, canvas.height);
-          // faceapi.draw.drawDetections(canvas, resizedDetections);
-    
-          // Carregar a fonte personalizada 'Inter'
-          const font = new FontFace('Inter', 'url(./fonts/Poppins-LightItalic.ttf)');
-font.load().then(loadedFont => {
-  document.fonts.add(loadedFont);
-
-  resizedDetections.forEach((detection, index) => {
-    const { x, y, width, height } = detection.box;
-
-    // Configurar o tamanho da fonte proporcionalmente à altura da caixa de detecção
-    const fontSize = height * 0.2; // ajuste o fator conforme necessário
-    context.font = `italic ${fontSize}px Inter`;
-    context.fillStyle = 'white';
-
-    const imga_perfil = new Image();
-    imga_perfil.src = 'https://randomuser.me/api/portraits/men/2.jpg';
-
-    imga_perfil.onload = () => {
-      // Calcular o tamanho da imagem proporcionalmente ao tamanho da caixa de detecção
-      const imageSize = height * 0.5; // ajuste o fator conforme necessário
-      const imageX = x + width + 10; // Posição X da imagem (ajustar margem conforme necessário)
-      const imageY = y; // Posição Y da imagem
-
-      // Deixar imagem redonda
-      context.save();
-      context.beginPath();
-      context.arc(imageX + imageSize / 2, imageY + imageSize / 2, imageSize / 2, 0, Math.PI * 2, true);
-      context.closePath();
-      context.clip();
-      context.drawImage(imga_perfil, imageX, imageY, imageSize, imageSize);
-      context.restore();
-
-      // Configurar a posição do texto ao lado da imagem
-      const textX = imageX + imageSize + 10; // Posição X do texto (ajustar margem conforme necessário)
-      const textY = imageY + fontSize; // Posição Y do texto
-      context.fillText(namesRef.current[index] || 'unknown', textX, textY);
-      context.fillText('3.7', textX, textY + fontSize * 1.5);
-    };
-  });
-});
-
-    
+  
+          resizedDetections.forEach((detection, index) => {
+            const { x, y, width, height } = detection.box;
+  
+            // Configurar o tamanho da fonte proporcionalmente à altura da caixa de detecção
+            const fontSize = height * 0.2; // ajuste o fator conforme necessário
+            context.font = `italic ${fontSize}px Inter`;
+            context.fillStyle = 'white';
+  
+            // Calcular o tamanho da imagem proporcionalmente ao tamanho da caixa de detecção
+            const imageSize = height * 0.5; // ajuste o fator conforme necessário
+            const imageX = x + width + 10; // Posição X da imagem (ajustar margem conforme necessário)
+            const imageY = y; // Posição Y da imagem
+  
+            // Deixar imagem redonda
+            context.save();
+            context.beginPath();
+            context.arc(imageX + imageSize / 2, imageY + imageSize / 2, imageSize / 2, 0, Math.PI * 2, true);
+            context.closePath();
+            context.clip();
+            context.drawImage(imga_perfil, imageX, imageY, imageSize, imageSize);
+            context.restore();
+  
+            // Configurar a posição do texto ao lado da imagem
+            const textX = imageX + imageSize + 10; // Posição X do texto (ajustar margem conforme necessário)
+            const textY = imageY + fontSize; // Posição Y do texto
+            context.fillText(namesRef.current[index] || 'unknown', textX, textY);
+            context.fillText('3.7', textX, textY + fontSize * 1.5);
+          });
+  
           requestAnimationFrame(drawDetections); // Chama recursivamente para o próximo quadro
         }
       };
-    
+  
       requestAnimationFrame(drawDetections);
     };
-    
-
+  
     if (videoRef.current) {
       videoRef.current.addEventListener('play', handleVideoPlay);
     }
   }, [detections]);
+  
 
   useEffect(() => {
     const sendFrameToServer = async (frame: string) => {
