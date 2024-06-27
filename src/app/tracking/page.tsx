@@ -88,8 +88,21 @@ export default function VideoTracking() {
     
             resizedDetections.forEach((detection, index) => {
               const { x, y } = detection.box;
-              context.fillText(namesRef.current[index] || 'unknown', x+detection.box.width, y - 10);
-              context.fillText('3.7', x+detection.box.width, y + 20);
+              context.fillText(namesRef.current[index] || 'unknown', x+detection.box.width+50, y - 10);
+              context.fillText('3.7', x+detection.box.width+40, y + 20);
+              const imga_perfil = new Image();
+              imga_perfil.src = 'https://randomuser.me/api/portraits/men/2.jpg';
+       
+              imga_perfil.onload = () => {
+                // deixar imagem redonda
+                context.save();
+                context.beginPath();
+                context.arc(x + 25, y + 25, 25, 0, Math.PI * 2, true);
+                context.closePath();
+                context.clip();
+                context.drawImage(imga_perfil, x+detection.box.width, y, 50, 50);
+                context.restore();
+              };
     
             });
           });
